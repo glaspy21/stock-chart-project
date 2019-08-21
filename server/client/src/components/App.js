@@ -1,26 +1,33 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import socketIOClient from 'socket.io-client';
 
 class App extends Component {
-  getData() {
-    axios
-      .get('http://localhost:8000/stockData')
-      .then((response) => {
-        console.log(response)
-      })
+  constructor() {
+    super();
+
+    this.state = {
+      response: false,
+      endpoint: "http://localhost:8000"
+    }
   }
+  
   componentDidMount() {
-    axios
-      .get('http://localhost:8000/stockData')
-      .then((response) => {
-        console.log(response)
-      })
+    const {endpoint} = this.state;
+    const socket = socketIOClient(endpoint);
+    socket.on("stockData", data => console.log(data))
+    this.setState({response: data  })
   }
+
+  componentDidUpdate() {
+    console.log(this.state.response)
+  }
+
 
 
   render() {
     return (
-      <div>Hello</div>
+      <div>{this.state.response.high}</div>
     )
   }
 }
