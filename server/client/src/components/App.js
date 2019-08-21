@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import socketIOClient from 'socket.io-client';
+import Chart from './chart'
+
+const endpoint = "http://localhost:8000"
+const socket = socketIOClient(endpoint);
 
 class App extends Component {
   constructor() {
     super();
-
-    this.state = {
-      response: false,
-      endpoint: "http://localhost:8000"
-    }
   }
   
   componentDidMount() {
-    const {endpoint} = this.state;
-    const socket = socketIOClient(endpoint);
+    
     socket.on("stockData", data => console.log(data))
-    this.setState({response: data  })
+    console.log(socket)
   }
 
   componentDidUpdate() {
@@ -27,7 +25,12 @@ class App extends Component {
 
   render() {
     return (
-      <div>{this.state.response.high}</div>
+      <div>
+      <div>hello</div>
+      <button onClick={()=> socket.emit('startInterval') }>start</button>
+      <button onClick={()=> socket.emit('stopInterval') }>stop</button>
+
+      </div>
     )
   }
 }

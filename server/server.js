@@ -171,14 +171,19 @@ app.use(bodyParser.urlencoded({
 }))
 
 const getDataAndEmit = socket => {
-    if (sockets[socket.id].minutes.toString().length <= 1) {
+    if (sockets[socket.id].minutes.toString().length < 2) {
         sockets[socket.id].minutes = "0" + sockets[socket.id].minutes
-    }
-    let dateTime = `2019-08-20 ${sockets[socket.id].hours}:${sockets[socket.id].minutes}:00`
+    };
+    if (sockets[socket.id].hours.toString().length < 2) {
+        sockets[socket.id].hours = "0" + sockets[socket.id].hours
+    };
+    let dateTime = `2019-08-16 ${sockets[socket.id].hours}:${sockets[socket.id].minutes}:00`
     let currentData = dataObj[dateTime];
     console.log(`Sending Current Data ${sockets[socket.id].minutes}`)
     socket.emit("stockData", currentData)
-    sockets[socket.id].minutes = parseInt(sockets[socket.id].minutes)
+    socket.emit("stockData", dateTime)
+    sockets[socket.id].minutes = parseInt(sockets[socket.id].minutes);
+    sockets[socket.id].hours = parseInt(sockets[socket.id].hours);
     sockets[socket.id].minutes ++;
     if (sockets[socket.id].minutes === 60) {
         sockets[socket.id].minutes = 0;
@@ -196,16 +201,30 @@ io.on('connection', (socket) => {
     console.log(`Socket id is: ${socket.id}`)
     sockets[socket.id] = {}
     sockets[socket.id].hours = 10
-    sockets[socket.id].minutes = 00
-    console.log(`Socket id is: ${socket.id}`)
-    sockets[socket.id].startinterval = setInterval (
-        () => {
+    sockets[socket.id].minutes = 00 
+    sockets[socket.id].startInterval = setInterval (() => {
             getDataAndEmit(socket)
         }, 2000
     );
+
     socket.on("disconnect", () => {
-        clearInterval(sockets[socket.id].startinterval)
+        clearInterval(sockets[socket.id].startInterval)
         console.log(`Client disconnected`)
+    });
+
+    socket.on('startInterval', () => {
+        sockets[socket.id].hours = 10
+        sockets[socket.id].minutes = 00
+        sockets[socket.id].startInterval = setInterval (() => {
+                getDataAndEmit(socket)
+            }, 2000
+        );
+        console.log(`Interval started`)
+    });
+
+    socket.on('stopInterval', () => {
+        clearInterval(sockets[socket.id].startInterval);
+        console.log(`Interval stopped`)
     })
 })
 
