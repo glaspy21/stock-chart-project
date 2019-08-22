@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import socketIOClient from 'socket.io-client';
-import Chart from './chart'
+import Chart from './chartSVG'
 
 const endpoint = "http://localhost:8000"
 const socket = socketIOClient(endpoint);
