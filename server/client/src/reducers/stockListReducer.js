@@ -8,7 +8,9 @@ export default function (state = [], action ) {
         case ADD_STOCK:
             return [ ...state, action.payload ];
         case REMOVE_STOCK:
-            return "";
+            return state.filter((symbol) => {
+                return symbol !== action.payload
+            });
         default:
             return state;
     }

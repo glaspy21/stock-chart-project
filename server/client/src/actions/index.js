@@ -1,6 +1,6 @@
 import axios from 'axios'
 import socketIOClient from 'socket.io-client';
-import { FETCH_CURRENT_STOCK_HISTORY, FETCH_CURRENT_STOCK_UPDATE, FETCH_STOCKS, UDATE_CURRENT_TIME, CONNECT_SOCKET, ADD_STOCK  } from './types' 
+import { FETCH_CURRENT_STOCK_HISTORY, FETCH_CURRENT_STOCK_UPDATE, FETCH_STOCKS, UDATE_CURRENT_TIME, CONNECT_SOCKET, ADD_STOCK, REMOVE_STOCK  } from './types' 
 
 
 export const fetchCurrentStockHistory = (symbol) => dispatch => {
@@ -29,11 +29,10 @@ export const connectSocket = () => dispatch => {
 export const addStock = (symbol) => dispatch => {
     symbol = symbol.toUpperCase();
 
-    axios.get('http://localhost:8000/symbol?symbol=NETE') 
-    // {
-    //     params: {
-    //         symbol: symbol
-    //     }})
+    axios.get('http://localhost:8000/symbol', {
+        params: {
+            symbol
+        }})
         .then(response => {
             console.log(response.data)
             dispatch({type: ADD_STOCK, payload: response.data})
@@ -42,5 +41,20 @@ export const addStock = (symbol) => dispatch => {
             console.log(error)
         })
 }
+
+export const removeStock = (symbol) => dispatch => {
+    symbol = symbol.toUpperCase();
+
+    axios.get('http://localhost:8000/symbol', {
+        params: {
+            symbol
+        }})
+        .then((response) => {
+            dispatch({type: REMOVE_STOCK, payload: response.data})
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }
 
 //response.data["Time Series (1min)"]

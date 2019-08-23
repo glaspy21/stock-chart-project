@@ -4,7 +4,7 @@ import Chart from './Chart'
 import { BrowserRouter, Switch, Route, Redirect  } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { connectSocket, addStock } from '../actions/index'
+import { connectSocket, addStock, removeStock } from '../actions/index'
 
 
 // const endpoint = "http://localhost:8000"
@@ -17,6 +17,8 @@ class App extends Component {
   
   componentDidMount() {
     this.props.addStock('nete');
+    this.props.addStock('aapl');
+    this.props.addStock('nflx');
     this.props.connectSocket()
   }
 
@@ -26,8 +28,8 @@ class App extends Component {
 
   }
 
-  fetchChartData(e) {
-    console.log(e.currentTarget.value)
+  fetchChartData(symbol) {
+    this.props.removeStock(symbol)
     // this.props.fetchStockData(e.target.value)
 
   }
@@ -37,9 +39,9 @@ class App extends Component {
       <div>
         <div>hello</div>
         <div>{this.props.stockList[0]}</div>
-        <div><button onClick={e => this.fetchChartData(e)}>NETE</button></div>
-        <div><button onClick={e => this.fetchChartData(e)}>AAPL</button></div>
-        <div><button onClick={e => this.fetchChartData(e)}>NFLX</button></div>
+        <div><button onClick={e => this.fetchChartData(e.currentTarget.innerHTML)}>NETE</button></div>
+        <div><button onClick={e => this.fetchChartData(e.currentTarget.innerHTML)}>AAPL</button></div>
+        <div><button onClick={e => this.fetchChartData(e.currentTarget.innerHTML)}>NFLX</button></div>
 
         <button onClick={()=> this.props.socket.emit('startInterval') }>start</button>
         <button onClick={()=> this.props.socket.emit('stopInterval') }>stop</button>
@@ -69,7 +71,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({ connectSocket, addStock }, dispatch)
+  return bindActionCreators({ connectSocket, addStock, removeStock }, dispatch)
 }
 
 
