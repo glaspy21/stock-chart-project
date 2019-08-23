@@ -7,7 +7,6 @@ import socketReducer from './socketReducer'
 const rootReducer = combineReducers({
     socket: socketReducer,
     currentStock: currentStockReducer,
-    startingTime: '',
     currentTime: currentTimeReducer,
     stockList: stockListReducer,
 

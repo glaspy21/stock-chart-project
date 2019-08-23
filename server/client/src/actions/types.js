@@ -5,3 +5,4 @@ export const UPDATE_CURRENT_TIME = 'update_current_time'
 export const CONNECT_SOCKET = 'connect_socket'
 export const ADD_STOCK = 'add_stock'; 
 export const REMOVE_STOCK = 'remove_stock'
+export const SET_CURRENT_TIME = 'set_current_time'

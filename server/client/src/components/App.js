@@ -13,6 +13,14 @@ import { connectSocket, addStock, removeStock } from '../actions/index'
 class App extends Component {
   constructor() {
     super();
+
+    this.state = {
+      year: '',
+      month: '',
+      day: '',
+      hour: '',
+      minute: '',
+    }
   }
   
   componentDidMount() {
@@ -25,6 +33,12 @@ class App extends Component {
   componentDidUpdate() {
     this.props.socket.on("stockData", data => console.log(data))
     console.log(this.props.socket)
+    console.log(`the current state is:`)
+    console.log(this.state.year)
+    console.log(this.state.month)
+    console.log(this.state.day)
+    console.log(this.state.hour)
+    console.log(this.state.minute)
 
   }
 
@@ -38,6 +52,39 @@ class App extends Component {
     return (
       <div>
         <div>hello</div>
+        <form>
+        <label>
+            Year:
+            <input type="text" name="name" onChange={(e) => {
+              this.setState({ year: e.target.value })
+            }}/>
+          </label>
+          <label>
+            Month:
+            <input type="text" name="name" onChange={(e) => {
+              this.setState({ month: e.target.value })
+            }}/>
+          </label>
+          <label>
+            Day:
+            <input type="text" name="name" onChange={(e) => {
+              this.setState({ day: e.target.value })
+            }}/>
+          </label>
+          <label>
+            Hour:
+            <input type="text" name="name" onChange={(e) => {
+              this.setState({ hour: e.target.value })
+            }}/>
+          </label>
+          <label>
+            Minute:
+            <input type="text" name="name" onChange={(e) => {
+              this.setState({ minute: e.target.value })
+            }}/>
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
         <div>{this.props.stockList[0]}</div>
         <div><button onClick={e => this.fetchChartData(e.currentTarget.innerHTML)}>NETE</button></div>
         <div><button onClick={e => this.fetchChartData(e.currentTarget.innerHTML)}>AAPL</button></div>
