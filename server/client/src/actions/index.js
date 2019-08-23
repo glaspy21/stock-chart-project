@@ -58,7 +58,7 @@ export const removeStock = (symbol) => dispatch => {
     }
 
 export const setCurrentTime = (time) => dispatch => {
-    
+    console.log(`current time is blah blah`)
 }
 
 //response.data["Time Series (1min)"]

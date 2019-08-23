@@ -4,7 +4,7 @@ import Chart from './Chart'
 import { BrowserRouter, Switch, Route, Redirect  } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { connectSocket, addStock, removeStock } from '../actions/index'
+import { connectSocket, addStock, removeStock, setCurrentTime } from '../actions/index'
 
 
 // const endpoint = "http://localhost:8000"
@@ -15,24 +15,26 @@ class App extends Component {
     super();
 
     this.state = {
-      year: '',
-      month: '',
-      day: '',
-      hour: '',
-      minute: '',
+      year: '2019',
+      month: 'AUG',
+      day: '22',
+      hour: '10',
+      minute: '05',
     }
   }
   
-  componentDidMount() {
+  async componentDidMount() {
+
     this.props.addStock('nete');
     this.props.addStock('aapl');
     this.props.addStock('nflx');
-    this.props.connectSocket()
+    await this.props.connectSocket()
+    this.props.socket.on("stockData", data => console.log(data))
+    this.props.socket.on("updateCurrentTime", data => this.props.updateCurrentTime(data))
+
   }
 
   componentDidUpdate() {
-    this.props.socket.on("stockData", data => console.log(data))
-    console.log(this.props.socket)
     console.log(`the current state is:`)
     console.log(this.state.year)
     console.log(this.state.month)
@@ -48,43 +50,48 @@ class App extends Component {
 
   }
 
+  emitCurrentTime(time) {
+    this.props.socket.emit("setTime", this.state)
+  }
+
   render() {
     return (
       <div>
         <div>hello</div>
-        <form>
-        <label>
-            Year:
-            <input type="text" name="name" onChange={(e) => {
-              this.setState({ year: e.target.value })
-            }}/>
-          </label>
+        <div>
           <label>
-            Month:
-            <input type="text" name="name" onChange={(e) => {
-              this.setState({ month: e.target.value })
-            }}/>
-          </label>
-          <label>
-            Day:
-            <input type="text" name="name" onChange={(e) => {
-              this.setState({ day: e.target.value })
-            }}/>
-          </label>
-          <label>
-            Hour:
-            <input type="text" name="name" onChange={(e) => {
-              this.setState({ hour: e.target.value })
-            }}/>
-          </label>
-          <label>
-            Minute:
-            <input type="text" name="name" onChange={(e) => {
-              this.setState({ minute: e.target.value })
-            }}/>
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
+              Year:
+              <input type="text" name="name" defaultValue={this.state.year} onChange={(e) => {
+                this.setState({ year: e.target.value })
+              }}/>
+            </label>
+            <label>
+              Month:
+              <input type="text" name="name" defaultValue={this.state.month} onChange={(e) => {
+                this.setState({ month: e.target.value })
+              }}/>
+            </label>
+            <label>
+              Day:
+              <input type="text" name="name" defaultValue={this.state.day} onChange={(e) => {
+                this.setState({ day: e.target.value })
+              }}/>
+            </label>
+            <label>
+              Hour:
+              <input type="text" name="name" defaultValue={this.state.hour} onChange={(e) => {
+                this.setState({ hour: e.target.value })
+              }}/>
+            </label>
+            <label>
+              Minute:
+              <input type="text" name="name" defaultValue={this.state.minute} onChange={(e) => {
+                this.setState({ minute: e.target.value })
+              }}/>
+            </label>
+          <button onClick={e => this.props.setCurrentTime(this.state)}>SUBMIT</button>
+        </div>
+
         <div>{this.props.stockList[0]}</div>
         <div><button onClick={e => this.fetchChartData(e.currentTarget.innerHTML)}>NETE</button></div>
         <div><button onClick={e => this.fetchChartData(e.currentTarget.innerHTML)}>AAPL</button></div>
@@ -118,7 +125,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({ connectSocket, addStock, removeStock }, dispatch)
+  return bindActionCreators({ connectSocket, addStock, removeStock, setCurrentTime }, dispatch)
 }
 
 
