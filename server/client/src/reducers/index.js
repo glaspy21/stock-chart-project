@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import stocksReducer from './stocksReducer';
+import stockListReducer from './stockListReducer';
 import currentStockReducer from './currentStockReducer'
 import currentTimeReducer from './currentTimeReducer'
 import socketReducer from './socketReducer'
@@ -7,8 +7,9 @@ import socketReducer from './socketReducer'
 const rootReducer = combineReducers({
     socket: socketReducer,
     currentStock: currentStockReducer,
+    startingTime: '',
     currentTime: currentTimeReducer,
-    stocks: stocksReducer,
+    stockList: stockListReducer,
 
 
 

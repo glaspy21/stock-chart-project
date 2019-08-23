@@ -4,7 +4,7 @@ import Chart from './Chart'
 import { BrowserRouter, Switch, Route, Redirect  } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { connectSocket } from '../actions/index'
+import { connectSocket, addStock } from '../actions/index'
 
 
 // const endpoint = "http://localhost:8000"
@@ -16,24 +16,14 @@ class App extends Component {
   }
   
   componentDidMount() {
-    // axios.get('https://www.alphavantage.co/query', {
-    //   params: {
-    //     function: 'TIME_SERIES_INTRADAY',
-    //     symbol: 'AMZN',
-    //     interval: '1min',
-    //     apikey: '04H52YKIOBCHDOIL',
-    //     outputsize: 'full'
-    //   }
-    // }).then(response => {
-    //   console.log(`response is:`)
-    //   console.log(response)
-    // })
+    this.props.addStock('nete');
     this.props.connectSocket()
   }
 
   componentDidUpdate() {
     this.props.socket.on("stockData", data => console.log(data))
     console.log(this.props.socket)
+
   }
 
   fetchChartData(e) {
@@ -46,6 +36,7 @@ class App extends Component {
     return (
       <div>
         <div>hello</div>
+        <div>{this.props.stockList[0]}</div>
         <div><button onClick={e => this.fetchChartData(e)}>NETE</button></div>
         <div><button onClick={e => this.fetchChartData(e)}>AAPL</button></div>
         <div><button onClick={e => this.fetchChartData(e)}>NFLX</button></div>
@@ -72,12 +63,13 @@ class App extends Component {
 function mapStateToProps(state) {
   return {
     socket: state.socket,
-    currentStock: state.currentStock
+    currentStock: state.currentStock,
+    stockList: state.stockList
   }
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({ connectSocket }, dispatch)
+  return bindActionCreators({ connectSocket, addStock }, dispatch)
 }
 
 

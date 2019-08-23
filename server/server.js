@@ -163,13 +163,12 @@ const cors = require('cors')
 const bodyParser = require(`body-parser`);
 
 
-
-app.use(index);
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }))
+app.use(index);
 
 const getDataAndEmit = socket => {
     if (sockets[socket.id].minutes.toString().length < 2) {

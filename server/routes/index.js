@@ -5,6 +5,7 @@ const Alpha_API_KEY = 'XMY3YX3TU92Q9B1Z'
 const Stock = require(`../models/stocks`);
 
 
+
 const MSFT = () => {
     axios.get(AlphaBaseUrl, {
         params: {
@@ -18,6 +19,21 @@ const MSFT = () => {
         return response
     })
 } 
+
+router.get('/symbol', async (req, res, next) => {
+    // if (!req.query.symbol) {
+    //     res.status(400).end('Must send a symbol')
+    // }
+    Stock
+        .find({ symbol: req.query.symbol })
+        .exec((err, doc) => {
+            if (doc) {
+                res.status(200).end(doc[0].symbol)
+            } else {
+                res.status(400).end();
+            }
+        })
+})
 
 
 router.get('/stocks', async (req, res, next) => {
