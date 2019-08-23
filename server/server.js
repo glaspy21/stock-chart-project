@@ -1,5 +1,8 @@
-const app = require('express')();
-const server = require(`http`).Server(app);
+const express = require(`express`);
+const mongoose = require(`mongoose`);
+mongoose.connect('mongodb://localhost/stockProject', {useNewUrlParser: true})
+const app = express();
+const server = require(`http`).createServer(app);
 const io = require(`socket.io`)(server);
 const axios = require('axios');
 const sockets = {}
@@ -156,12 +159,10 @@ const dataObj = {
 }
 
 
-const mongoose = require(`mongoose`);
 const cors = require('cors')
 const bodyParser = require(`body-parser`);
 
 
-mongoose.connect('mongodb://localhost/products', {useNewUrlParser: true})
 
 app.use(index);
 app.use(cors());
