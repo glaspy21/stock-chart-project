@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Chart from './Chart'
+import NavBar from './Navbar'
 import { BrowserRouter, Switch, Route, Redirect  } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { connectSocket, addStock, removeStock, setCurrentTime } from '../actions/index'
+import Clock from './Clock'
+import '../index.css'
+import 'bootstrap/dist/css/bootstrap.css'
+
+
 
 
 // const endpoint = "http://localhost:8000"
@@ -57,41 +63,24 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <div>hello</div>
-        <div>
-          <label>
-              Year:
-              <input type="text" name="name" defaultValue={this.state.year} onChange={(e) => {
-                this.setState({ year: e.target.value })
-              }}/>
-            </label>
-            <label>
-              Month:
-              <input type="text" name="name" defaultValue={this.state.month} onChange={(e) => {
-                this.setState({ month: e.target.value })
-              }}/>
-            </label>
-            <label>
-              Day:
-              <input type="text" name="name" defaultValue={this.state.day} onChange={(e) => {
-                this.setState({ day: e.target.value })
-              }}/>
-            </label>
-            <label>
-              Hour:
-              <input type="text" name="name" defaultValue={this.state.hour} onChange={(e) => {
-                this.setState({ hour: e.target.value })
-              }}/>
-            </label>
-            <label>
-              Minute:
-              <input type="text" name="name" defaultValue={this.state.minute} onChange={(e) => {
-                this.setState({ minute: e.target.value })
-              }}/>
-            </label>
-          <button onClick={e => this.props.setCurrentTime(this.state)}>SUBMIT</button>
+        <div className="container">
+            <NavBar />
+            <div className="row">
+                    <Clock />
+                
+            </div>
+            <div className="row">{/*chart, stocks, stockDetailrow*/}
+                <div className="col-md-6">
+                    {/*stocklist*/}
+                </div>
+            <div className="col-md-6">
+                {/*chart*/}
+                {/*stockDetail*/}
+            </div>
         </div>
+
+
+        
 
         <div>{this.props.stockList[0]}</div>
         <div><button onClick={e => this.fetchChartData(e.currentTarget.innerHTML)}>NETE</button></div>
@@ -103,10 +92,10 @@ class App extends Component {
         <BrowserRouter>
           <div className="container">
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-md-4">
                 Stuff should go Here
               </div>
-              <div className="col-md-6">
+              <div className="col-md-8">
                 <Chart />
               </div>
             </div>
