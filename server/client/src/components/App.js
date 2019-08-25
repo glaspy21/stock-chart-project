@@ -16,10 +16,11 @@ class App extends Component {
 
     this.state = {
       year: '2019',
-      month: 'AUG',
+      month: '08',
       day: '22',
       hour: '10',
       minute: '05',
+      rate: 30
     }
   }
   
@@ -51,7 +52,7 @@ class App extends Component {
   }
 
   emitCurrentTime(time) {
-    this.props.socket.emit("setTime", this.state)
+    this.props.socket.emit("setTimeAndStart", this.state)
   }
 
   render() {
