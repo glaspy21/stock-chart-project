@@ -16,8 +16,10 @@ code {
   overflow-x: scroll;
 }
 
+
 th {
-  min-width: 80px;
+  min-width: 120px;
+  text-align: left;
 }
 
 #form1 {
@@ -49,7 +51,7 @@ table, td, th, tr {
 }
 
 #stockTable:before {
-  content: "";
+  
   position: absolute;
   border-top: 2px dotted #FB8B1E;
   border-bottom: 2px dotted #FB8B1E;
@@ -60,7 +62,6 @@ table, td, th, tr {
   
 }
 #stockTable:after {
-  content: "";
   position: absolute;
   border-top: 2px dotted #FB8B1E;
   width: 800%;

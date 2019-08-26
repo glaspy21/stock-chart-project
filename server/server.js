@@ -193,19 +193,6 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(index);
 
-let stocks = {
-    NETE: {
-        candles: []
-    },
-    AAPL: {
-        candles: []
-    },
-    NFLX: {
-        candles: []
-    },
-
-}
-
 // const sendInitialData = (stocks) => {
 //     for (let symbol in stocks) {
 //         Stock
@@ -245,77 +232,46 @@ let stocks = {
 // sendNextCandle(stocks)
 
 const sendUpdates = socket => {
-    if (sockets[socket.id].minutes.toString().length < 2) {
-        sockets[socket.id].minutes = "0" + sockets[socket.id].minutes
-    };
-    if (sockets[socket.id].hours.toString().length < 2) {
-        sockets[socket.id].hours = "0" + sockets[socket.id].hours
-    };
-    let dateTime = `${stockTime.year}-${stockTime.month}-${stockTime.day} ${sockets[socket.id].hours}:${sockets[socket.id].minutes}:${stockTime.second}`
-    let currentData = dataObj[dateTime];
-    // console.log(`Sending Current Data ${sockets[socket.id].minutes}`)
-    socket.emit("stockData", currentData)
-    socket.emit("stockData", dateTime)
-    sockets[socket.id].minutes = parseInt(sockets[socket.id].minutes);
-    sockets[socket.id].hours = parseInt(sockets[socket.id].hours);
-    sockets[socket.id].minutes ++;
-    if (sockets[socket.id].minutes === 60) {
-        sockets[socket.id].minutes = 0;
-        sockets[socket.id].hours ++;
-        if (sockets[socket.id].hours === 24) {
-            sockets[socket.id].hours = 0;
-        }
-    }
-} 
 
-
-
-io.on('connection', (socket) => {
-    console.log(`New client connected`);
-    console.log(`Socket id is: ${socket.id}`)
-    sockets[socket.id] = {}
-    sockets[socket.id].hours = 10
-    sockets[socket.id].minutes = 00 
-    sockets[socket.id].starttimeInterval = setInterval (() => {
-            sendUpdates(socket)
-        }, 2000
-        //6000/100 = x
-    );
-    socket.on('setTimeAndStart',(data) => {
-        stockTime.year = data.year;
-        stockTime.month = data.month;
-        stockTime.day = data.day;
-        stockTime.hour = data.hour;
-        stockTime.minute = data.minute
-
-        socket[socket.id].starttimeInterval = setInterval(() => {
-            sendUpdates(socket)
-        }, milliseconds)
+    // Get stock data for current simulation Time
+    let message = {time:socket.currentSimulationTime}
+    stocks.forEach(stock => {
+        // TODO: make this pull from db, not dataObj
+        message[stock] = dataObj[socket.currentSimulationTime.format('YYYY-MM-DD hh:mm')]
     })
 
+    // Emit stock data
+    socket.emit("stockData", message)
+
+    // Increment current simulation time
+    socket.currentSimulationTime.add(1,'m')
+}
+let startSimulationTime = moment('2019-08-16 10:00')
+
+let stocks = ['NETE', 'AAPL','NFLX']
+io.on('connection', (socket) => {
+
     socket.on("disconnect", () => {
-        clearInterval(sockets[socket.id].starttimeInterval)
+        clearInterval(socket.timeInterval)
         console.log(`Client disconnected`)
     });
 
-    socket.on('starttimeInterval', () => {
-        sockets[socket.id].hours = 10
-        sockets[socket.id].minutes = 00
-        sockets[socket.id].starttimeInterval = setInterval (() => {
+    socket.on('startInterval', () => {
+        console.log(`starttimeInterval`);
+
+        socket.currentSimulationTime = startSimulationTime
+        socket.timeInterval = setInterval (() => {
                 sendUpdates(socket)
-            }, 2000
+            }, rate
         );
         console.log(`timeInterval started`)
     });
 
-    socket.on('stoptimeInterval', () => {
-        clearInterval(sockets.starttimeInterval);
+    socket.on('stopInterval', () => {
+        console.log(`stoptimeInterval`);
+        clearInterval(socket.timeInterval);
         console.log(`timeInterval stopped`)
     });
-
-    socket.on('setTimeAndStart',(data) => {
-        
-    })
 })
 
 server.listen(PORT, () => {

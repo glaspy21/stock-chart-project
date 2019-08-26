@@ -5,7 +5,7 @@ import NavBar from './Navbar'
 import { BrowserRouter, Switch, Route, Redirect  } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { connectSocket, addStock, removeStock, setCurrentTime, setCurrentChart } from '../actions/index'
+import { connectSocket, addStock, removeStock, setCurrentTime, setCurrentChart, fetchInitialData } from '../actions/index'
 import Clock from './Clock'
 import StockTable from './StockTable'
 import StockDetail from './StockDetail'
@@ -34,9 +34,7 @@ class App extends Component {
   
   async componentDidMount() {
 
-    // await this.props.addStock('tsla');
-    // await this.props.addStock('amzn');
-    // await this.props.addStock('fb');
+     this.props.fetchInitialData()
     await this.props.connectSocket()
     this.props.socket.on("stockData", data => console.log(data))
     this.props.socket.on("updateCurrentTime", data => this.props.updateCurrentTime(data))
@@ -107,7 +105,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({ connectSocket, addStock, removeStock, setCurrentTime, setCurrentChart }, dispatch)
+  return bindActionCreators({ connectSocket, addStock, removeStock, setCurrentTime, setCurrentChart, fetchInitialData }, dispatch)
 }
 
 

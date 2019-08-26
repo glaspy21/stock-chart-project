@@ -6,19 +6,15 @@ const Stock = require(`../models/stocks`);
 
 
 
-const MSFT = () => {
-    axios.get(AlphaBaseUrl, {
-        params: {
-            function: 'TIME_SERIES_INTRADAY',
-            symbol: 'MSFT',
-            interval: '1min',
-            outputsize: 'full',
-            apikey: Alpha_API_KEY
-        }
-    }).then(response => {
-        return response
-    })
-} 
+router.get('/initialData', async (req, res) => {
+   let stocks = await Stock.find({})
+   let stocksWithLimitedObservations = stocks.map(stock=> {
+    console.log(stock)
+    stock.observations = stock.observations.slice(0,60*30);
+    return stock;
+})
+    res.status(200).send(stocksWithLimitedObservations)
+})
 
 router.get('/symbol', async (req, res, next) => {
     let symbol;

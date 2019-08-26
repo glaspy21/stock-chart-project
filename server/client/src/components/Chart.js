@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getData } from "../utils/utils";
 import CandleStickChart from './CandleStickChart';
 import { TypeChooser } from "react-stockcharts/lib/helper";
+import { connect } from 'react-redux'
 
 
 
@@ -17,9 +18,10 @@ class Chart extends Component {
 			return <div>Loading...</div>
 		}
 		return (
-            <TypeChooser>
-				{type => <CandleStickChart type={type} data={this.state.data} />}
-                </TypeChooser>
+			<div></div>
+        //     <TypeChooser>
+		// 		{/* {type => <CandleStickChart type={type} data={this.props.currentStock.observations} />} */}
+        //         </TypeChooser>
 		)
 	}
 }
@@ -33,8 +35,15 @@ class Chart extends Component {
 
 // socket message 
 // {
+	// "currentTime":<time>
 //     "APPL":observation
 //     "MSFT":observation
 // }
 
-export default Chart
+function mapStateToProps (state) {
+	return {
+		currentStock: state.currentStock
+	}
+}
+
+export default connect (mapStateToProps)(Chart)
