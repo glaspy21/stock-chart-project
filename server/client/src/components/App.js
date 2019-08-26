@@ -5,7 +5,7 @@ import NavBar from './Navbar'
 import { BrowserRouter, Switch, Route, Redirect  } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { connectSocket, addStock, removeStock, setCurrentTime } from '../actions/index'
+import { connectSocket, addStock, removeStock, setCurrentTime, setCurrentChart } from '../actions/index'
 import Clock from './Clock'
 import StockTable from './StockTable'
 import StockDetail from './StockDetail'
@@ -34,9 +34,9 @@ class App extends Component {
   
   async componentDidMount() {
 
-    this.props.addStock('nete');
-    this.props.addStock('aapl');
-    this.props.addStock('nflx');
+    // await this.props.addStock('tsla');
+    // await this.props.addStock('amzn');
+    // await this.props.addStock('fb');
     await this.props.connectSocket()
     this.props.socket.on("stockData", data => console.log(data))
     this.props.socket.on("updateCurrentTime", data => this.props.updateCurrentTime(data))
@@ -77,23 +77,21 @@ class App extends Component {
             </div>
             <div className="row">{/*chart, stocks, stockDetailrow*/}
                 <StockDetail />
-            <div className="col-md-8">
+            <div className="col-md-8 mb-5">
+              <div style={{float: 'right'}}>
+                <span className="mr-5">
+              <button className="stock-button" onClick={() => this.props.setCurrentChart('1min')}>1</button>
+                <button className="stock-button" onClick={() => this.props.setCurrentChart('5min')}>5</button>
+                <button className="stock-button" onClick={() => this.props.setCurrentChart('1day')}>D</button>
+                </span>
+            <button className="stock-button" onClick={()=> this.props.socket.emit('startInterval') }>Start</button>
+            <button className="stock-button" onClick={()=> this.props.socket.emit('stopInterval') }>Stop</button>
+            <button className="stock-button">1x</button>
+
+            </div>
                 <Chart />
             </div>
         </div>
-
-
-        
-
-        <div>{this.props.stockList[0]}</div>
-        <div><a name="NETE" onClick={
-            (e) => {this.fetchChartData(e.currentTarget.name)
-            }}>NETE</a></div>
-        <div><a name="AAPL" onClick={e => this.fetchChartData(e.currentTarget.innerHTML)}>AAPL</a></div>
-        <div><a name="NFLX" onClick={e => this.fetchChartData(e.currentTarget.innerHTML)}>NFLX</a></div>
-
-        <button onClick={()=> this.props.socket.emit('startInterval') }>start</button>
-        <button onClick={()=> this.props.socket.emit('stopInterval') }>stop</button>
       </div>
       </div>
     )
@@ -109,8 +107,10 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({ connectSocket, addStock, removeStock, setCurrentTime }, dispatch)
+  return bindActionCreators({ connectSocket, addStock, removeStock, setCurrentTime, setCurrentChart }, dispatch)
 }
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+// onClick={e => this.fetchChartData(e.currentTarget.innerHTML)}

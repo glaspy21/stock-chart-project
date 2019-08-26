@@ -51,7 +51,7 @@ class Clock extends Component {
     </div>
 <button type="button" id="submit" onClick={() => this.props.setCurrentTime(this.state)}>Change</button>
 </form>
-                        <button className="dropdown-toggle" type="button" onClick={()=> {
+                        <button className="dropdown-toggle stock-button" type="button" onClick={()=> {
                                 $( "#targetinput" ).focus();
                                 }} style={{marginTop: 20, marginLeft: 0}}onClick={this.renderForm}></button>
                         <div id="clock">

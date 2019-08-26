@@ -24,3 +24,76 @@ export function getData() {
 		.then(data => tsvParse(data, parseData(parseDate)))
 	return promiseMSFT;
 }
+
+
+
+
+// function returnBollingerBands(arr20) {
+// 	let middleBand;
+// 	let upperBand;
+// 	let lowerBand;
+// 	const mean = arr20.reduce((sum, price) => {
+// 		return sum + price
+// 	}, 0)/ arr20.length
+
+// 	const squareMeanDifferences = [];
+
+// 	arr20.forEach(number => {
+// 		let dif = num - mean
+// 		let squared = dif * dif
+// 		squareMeanDifferences.push(squared)
+// 	})
+
+// 	const newMean = squaredMeanDifferences.reduce((sum, num) => {
+// 		return sum + num;
+// 	}, 0)/arr20.length;
+
+// 	const stdDev = Math.sqrt(newMean)
+
+// 	middleBand = mean
+// 	upperBand = mean + (2 * stdDev)
+// 	lowerBand = mean - (2 * stdDev)
+
+// 	return {
+// 		middleBand,
+// 		upperBand,
+// 		lowerBand
+// 	}
+
+// }
+
+// function returnRSI(last14arr ) {
+// 	let gainTotal = null;
+// 	let gainNum = null;
+// 	let lossTotal = null;
+// 	let lossTotal = null;
+	
+
+
+// 	for (i = 1; i <= last14arr.length; i++) {
+// 		let dif = last14arr[i] - last14arr[i-1]
+// 		if ( dif > 0 ) {
+// 			gainTotal += dif
+// 		} else {
+// 			lossTotal += dif
+// 		}
+
+// 		let gainAvg = gainTotal/gainNum
+// 		let lossAvg = lossTotal/lossNum
+// 	}
+
+// 	let RSI = 100 -  100/(1+ gainAvg/lossAvg)
+
+// 	return {
+// 		RSI
+// 	}	
+// }
+
+// function returnSMA50 () {
+// 	let currentTime;
+
+// 	//get closing price from last 50 time periods
+// 	let arr50 = [pCli-50...pCl i]
+
+	
+// }

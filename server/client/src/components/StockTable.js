@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react'
 import {connect} from 'react-redux'
 import '../index.css'
 import $ from 'jquery'
+import { bindActionCreators } from 'redux';
+import { setCurrentStock } from '../actions/index'
 
 class StockTable extends Component {
    constructor(props) {
@@ -17,6 +19,7 @@ class StockTable extends Component {
          /*green: #00ff55
          red:  #ff4d4d*/
       }
+      this.props.setCurrentStock.bind(this);
    }
 
    componentDidMount() {
@@ -25,45 +28,121 @@ class StockTable extends Component {
    //   });
    }
 
+   renderStockRow(stock) {
+      console.log(this.props.setCurrentStock)
+      return (
+         <Fragment>
+         <tr>
+           <td onClick={(e) => this.props.setCurrentStock(stock.symbol)} rowSpan="3">{stock.symbol}</td>
+         </tr>
+         <tr>
+           <td>100</td>
+           <td>85</td>
+           <td>20000</td>  
+           <td>100</td>
+           <td>100</td>
+           <td>100</td>
+           <td>100</td>
+           <td>100</td>
+           <td>100</td>
+           <td>100</td>
+           <td>100</td>
+           <td>100</td>
+           <td>100</td>
+           <td rowSpan="3">60%</td>
+           <td rowSpan="3">0%</td>
+         </tr>
+         <tr>
+            <span className={this.state.check}>
+                <span title="green box" />
+                <span title="red box" />
+              </span>
+           <td>
+              <span className={this.state.check}>
+                <span title="green box" />
+                <span title="red box" />
+              </span>
+           </td>
+           <td>
+              <span className={this.state.check}>
+                <span title="green box" />
+                <span title="red box" />
+              </span>
+           </td>
+           <td>
+              <span className={this.state.check}>
+                <span title="green box" />
+                <span title="red box" />
+              </span>
+           </td>
+           <td>
+              <span className={this.state.check}>
+                <span title="green box" />
+                <span title="red box" />
+              </span>
+           </td>
+           <td>
+              <span className={this.state.check}>
+                <span title="green box" />
+                <span title="red box" />
+              </span>
+           </td>
+           <td>
+              <span className={this.state.check}>
+                <span title="green box" />
+                <span title="red box" />
+              </span>
+           </td>
+           <td>
+              <span className={this.state.check}>
+                <span title="green box" />
+                <span title="red box" />
+              </span>
+           </td>
+           <td>
+              <span className={this.state.check}>
+                <span title="green box" />
+                <span title="red box" />
+              </span>
+           </td>
+           <td>
+              <span className={this.state.check}>
+                <span title="green box" />
+                <span title="red box" />
+              </span>
+           </td>
+           <td>
+              <span className={this.state.check}>
+                <span title="green box" />
+                <span title="red box" />
+              </span>
+           </td>
+           <td>
+              <span className={this.state.check}>
+                <span title="green box" />
+                <span title="red box" />
+              </span>
+           </td>
+           <td>
+              <span className={this.state.check}>
+                <span title="green box" />
+                <span title="red box" />
+              </span>
+           </td>
+           
+         </tr>
+         
+         </Fragment>
+      )
+   }
+
    renderTableData() {
-      for ( let stock in this.props.stockList ) {
-         return (
-            <Fragment>
-            <tr>
-              <td rowSpan="3"><a href="#">{stock}</a></td>
-            </tr>
-            <tr>
-              <td>100</td>
-              <td>85</td>
-              <td>20000</td>
-              <td>100</td>
-              <td>100</td>
-              <td>100</td>
-              <td>100</td>
-              <td>100</td>
-              <td>100</td>
-              <td>100</td>
-              <td>100</td>
-              <td>100</td>
-            </tr>
-            <tr>
-               <td></td>
-              <td>
-                 <span className={this.state.check}>
-                   <span title="green box" />
-                   <span title="red box" />
-                 </span>
-              </td>
-              <td>
-                 <span className={this.state.check}>
-                   <span title="green box" />
-                   <span title="red box" />
-                 </span>
-              </td>
-            </tr>
-            </Fragment>
-         )
+      let stockRows = [];
+      for ( let stockSymbol in this.props.stockList ) {
+         let stock = this.props.stockList[stockSymbol]
+        stockRows.push( this.renderStockRow(stock))
       }
+      return stockRows
          
       
    } 
@@ -87,6 +166,7 @@ class StockTable extends Component {
                    <th>Price</th>
                    <th>Volume</th>
                    <th>Change</th>
+                   <th>Float</th>
                    <th>VWAP</th>
                    <th>S/R</th>
                    <th>RVol</th>
@@ -118,4 +198,8 @@ function mapStateToProps (state) {
    }
 }
 
-export default connect (mapStateToProps)(StockTable)
+function mapDispatchToProps (dispatch) {
+   return bindActionCreators({ setCurrentStock }, dispatch)
+}
+
+export default connect (mapStateToProps, mapDispatchToProps)(StockTable)

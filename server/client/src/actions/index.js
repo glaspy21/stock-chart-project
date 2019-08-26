@@ -1,6 +1,6 @@
 import axios from 'axios'
 import socketIOClient from 'socket.io-client';
-import { FETCH_CURRENT_STOCK_HISTORY, FETCH_CURRENT_STOCK_UPDATE, FETCH_STOCKS, SET_CURRENT_TIME, UDATE_CURRENT_TIME, CONNECT_SOCKET, ADD_STOCK, REMOVE_STOCK  } from './types' 
+import { FETCH_CURRENT_STOCK_HISTORY, FETCH_CURRENT_STOCK_UPDATE, FETCH_STOCKS, SET_CURRENT_TIME, UDATE_CURRENT_TIME, CONNECT_SOCKET, ADD_STOCK, REMOVE_STOCK, SET_CURRENT_CHART, SET_CURRENT_STOCK  } from './types' 
 
 
 export const fetchCurrentStockHistory = (symbol) => dispatch => {
@@ -19,6 +19,12 @@ export const fetchStocks = () => {
     
 }
 
+export const setCurrentStock = (symbol) => dispatch => {
+    console.log(symbol);
+    console.log(`hello friend`)
+    dispatch({type: SET_CURRENT_STOCK, payload: symbol})
+}
+
 export const connectSocket = () => dispatch => {
     const endpoint = "http://localhost:8000"
     const socket = socketIOClient(endpoint);
@@ -26,10 +32,10 @@ export const connectSocket = () => dispatch => {
     dispatch({ type: CONNECT_SOCKET, payload: socket  })
 }
 
-export const addStock = (symbol) => dispatch => {
+export const addStock =  (symbol) => async dispatch => {
     symbol = symbol.toUpperCase();
 
-    axios.get('http://localhost:8000/symbol', {
+    await axios.get('http://localhost:8000/symbol', {
         params: {
             symbol
         }})
@@ -58,6 +64,12 @@ export const removeStock = (symbol) => dispatch => {
             console.log(error)
         })
     }
+
+export const setCurrentChart = (interval) => dispatch => {
+    return {
+        type: SET_CURRENT_CHART, payload: interval
+    }
+}
 
 export const setCurrentTime = (time) => dispatch => {
     console.log(`current time is blah blah`)
