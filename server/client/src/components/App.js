@@ -7,6 +7,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { connectSocket, addStock, removeStock, setCurrentTime } from '../actions/index'
 import Clock from './Clock'
+import StockTable from './StockTable'
+import StockDetail from './StockDetail'
 import '../index.css'
 import 'bootstrap/dist/css/bootstrap.css'
 
@@ -63,19 +65,20 @@ class App extends Component {
 
   render() {
     return (
-        <div className="container">
-            <NavBar />
+        <div className="doc">
+        <NavBar />
+        <div className="container" style={{fontFamily: 'helvetica'}}>
             <div className="row">
                     <Clock />
-                
+            </div>
+            
+            <div className="row table-container">
+                <StockTable />
             </div>
             <div className="row">{/*chart, stocks, stockDetailrow*/}
-                <div className="col-md-6">
-                    {/*stocklist*/}
-                </div>
-            <div className="col-md-6">
-                {/*chart*/}
-                {/*stockDetail*/}
+                <StockDetail />
+            <div className="col-md-8">
+                <Chart />
             </div>
         </div>
 
@@ -83,24 +86,15 @@ class App extends Component {
         
 
         <div>{this.props.stockList[0]}</div>
-        <div><button onClick={e => this.fetchChartData(e.currentTarget.innerHTML)}>NETE</button></div>
-        <div><button onClick={e => this.fetchChartData(e.currentTarget.innerHTML)}>AAPL</button></div>
-        <div><button onClick={e => this.fetchChartData(e.currentTarget.innerHTML)}>NFLX</button></div>
+        <div><a name="NETE" onClick={
+            (e) => {this.fetchChartData(e.currentTarget.name)
+            }}>NETE</a></div>
+        <div><a name="AAPL" onClick={e => this.fetchChartData(e.currentTarget.innerHTML)}>AAPL</a></div>
+        <div><a name="NFLX" onClick={e => this.fetchChartData(e.currentTarget.innerHTML)}>NFLX</a></div>
 
         <button onClick={()=> this.props.socket.emit('startInterval') }>start</button>
         <button onClick={()=> this.props.socket.emit('stopInterval') }>stop</button>
-        <BrowserRouter>
-          <div className="container">
-            <div className="row">
-              <div className="col-md-4">
-                Stuff should go Here
-              </div>
-              <div className="col-md-8">
-                <Chart />
-              </div>
-            </div>
-          </div>
-        </BrowserRouter>
+      </div>
       </div>
     )
   }

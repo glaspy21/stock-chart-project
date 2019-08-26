@@ -34,6 +34,7 @@ export const addStock = (symbol) => dispatch => {
             symbol
         }})
         .then(response => {
+            console.log(`hey peopel the response is`)
             console.log(response.data)
             dispatch({type: ADD_STOCK, payload: response.data})
         })
@@ -50,6 +51,7 @@ export const removeStock = (symbol) => dispatch => {
             symbol
         }})
         .then((response) => {
+            console.log(`ok hewre we go poEPOPL`)
             dispatch({type: REMOVE_STOCK, payload: response.data})
         })
         .catch((error) => {

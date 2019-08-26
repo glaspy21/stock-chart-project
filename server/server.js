@@ -11,9 +11,9 @@ const sockets = {}
 let stockTime = {
     year: '2019',
     month: '08',
-    day: '22',
-    hour: '15',
-    minute: '56',
+    day: '16',
+    hour: '10',
+    minute: '05',
     second: '00'
 }
 let rate = 60;
@@ -26,7 +26,7 @@ let timeIncrement = 1
 let stockTimeString = () => `${stockTime.year}-${stockTime.month}-${stockTime.day} ${stockTime.hour}:${stockTime.minute}:${stockTime.second}`
 
 
-console.log(stockTimeString()._i)
+// console.log(stockTimeString()._i)
 
 
 const PORT = process.env.PORT || 8000;
@@ -221,7 +221,7 @@ const sendInitialData = (stocks) => {
                 }
             })
     }
-    console.log(stocks)
+    // console.log(stocks)
 }
 
 const sendNextCandle = (stocks) => {
@@ -230,12 +230,12 @@ const sendNextCandle = (stocks) => {
         .find({symbol})
         .exec((err, doc) => {
            let nextCandleTime = moment(stockTimeString(), timeFormat).add(timeIncrement, 'minute')._d
-           console.log(`the next Candle time is:`)
-           console.log(nextCandleTime)
+        //    console.log(`the next Candle time is:`)
+        //    console.log(nextCandleTime)
            timeIncrement ++
            nextCandleTime = moment(stockTimeString(), timeFormat).add(timeIncrement, 'minute')
-           console.log(`the next Candle time is:`)
-           console.log(nextCandleTime)
+        //    console.log(`the next Candle time is:`)
+        //    console.log(nextCandleTime)
            
         })
     }
@@ -251,9 +251,9 @@ const sendUpdates = socket => {
     if (sockets[socket.id].hours.toString().length < 2) {
         sockets[socket.id].hours = "0" + sockets[socket.id].hours
     };
-    let dateTime = `${stockTime.year}-${stockTime.month}-22 ${sockets[socket.id].hours}:${sockets[socket.id].minutes}:00`
+    let dateTime = `${stockTime.year}-${stockTime.month}-${stockTime.day} ${sockets[socket.id].hours}:${sockets[socket.id].minutes}:${stockTime.second}`
     let currentData = dataObj[dateTime];
-    console.log(`Sending Current Data ${sockets[socket.id].minutes}`)
+    // console.log(`Sending Current Data ${sockets[socket.id].minutes}`)
     socket.emit("stockData", currentData)
     socket.emit("stockData", dateTime)
     sockets[socket.id].minutes = parseInt(sockets[socket.id].minutes);
@@ -278,7 +278,7 @@ io.on('connection', (socket) => {
     sockets[socket.id].minutes = 00 
     sockets[socket.id].starttimeInterval = setInterval (() => {
             sendUpdates(socket)
-        }, 1000
+        }, 2000
         //6000/100 = x
     );
     socket.on('setTimeAndStart',(data) => {
@@ -288,13 +288,13 @@ io.on('connection', (socket) => {
         stockTime.hour = data.hour;
         stockTime.minute = data.minute
 
-        socket.starttimeInterval = setInterval(() => {
+        socket[socket.id].starttimeInterval = setInterval(() => {
             sendUpdates(socket)
         }, milliseconds)
     })
 
     socket.on("disconnect", () => {
-        cleartimeInterval(sockets[socket.id].starttimeInterval)
+        clearInterval(sockets[socket.id].starttimeInterval)
         console.log(`Client disconnected`)
     });
 
@@ -309,7 +309,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('stoptimeInterval', () => {
-        cleartimeInterval(sockets[socket.id].starttimeInterval);
+        clearInterval(sockets.starttimeInterval);
         console.log(`timeInterval stopped`)
     });
 
