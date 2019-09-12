@@ -45,7 +45,6 @@ class StockTable extends Component {
    }
 
    renderStockRow(stock) {
-      console.log(this.props.setCurrentStock)
       return (
          <Fragment>
          <tr>
@@ -55,13 +54,13 @@ class StockTable extends Component {
            <td>{stock.price}</td>
            <td>{stock.volume}</td>
            <td>{stock.change}</td>  
-           <td>{stock.float}</td>
+           <td>{stock.shsFloat}</td>
            <td>{stock.vwap}</td>
-           <td>{stock.price}</td>
+           {/* <td>{stock.price}</td> */}
            {/* <td>{stock.price}</td> */}
            <td>{stock.rvol}</td>
            <td>{stock.rsi}</td>
-           <td>{stock.BB}</td>
+           {/* <td>{stock.BB}</td> */}
            {/* <td>{stock.sma}</td>
            <td>{stock.price}</td> */}
            {/* <td>{stock.price}</td> */}
@@ -103,7 +102,7 @@ class StockTable extends Component {
                 <span title="red box" />
               </span>
            </td>
-           <td>
+           {/* <td>
               <span className={stock.rvol > 2 ? 'green':'red'}>
                 <span title="green box" />
                 <span title="red box" />
@@ -114,7 +113,7 @@ class StockTable extends Component {
                 <span title="green box" />
                 <span title="red box" />
               </span>
-           </td>
+           </td> */}
            {/* <td>
               <span className={(stock.price - 40)/40 > .20 ? 'green':'red'}>
                 <span title="green box" />
@@ -184,10 +183,10 @@ class StockTable extends Component {
                    <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>Change</th>
                    <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>Float</th>
                    <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>VWAP</th>
-                   <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>S/R</th>
+                   {/* <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>S/R</th> */}
                    <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>RVol</th>
                    <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>RSI</th>
-                   <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>BB</th>
+                   {/* <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>BB</th> */}
                    {/* <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>SMA</th>
                    <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>EMA</th>
                    <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>ADX</th>

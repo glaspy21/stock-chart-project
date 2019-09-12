@@ -7,21 +7,20 @@ import { connect } from 'react-redux'
 
 
 class Chart extends Component {
-	componentDidMount() {
-		getData().then(data => {
-            console.log(data)
-			this.setState({ data })
-		})
-	}
+	// componentDidMount() {
+	// 	getData().then(data => {
+    //         console.log(data)
+	// 		this.setState({ data })
+	// 	})
+	// }
 	render() {
-		if (this.state == null) {
+		if (this.props.currentStock.observations == null) {
 			return <div>Loading...</div>
 		}
 		return (
-			<div></div>
-        //     <TypeChooser>
-		// 		{/* {type => <CandleStickChart type={type} data={this.props.currentStock.observations} />} */}
-        //         </TypeChooser>
+            <TypeChooser>
+				{type => <CandleStickChart type={type} data={this.props.currentStock.observations} />}
+                </TypeChooser>
 		)
 	}
 }

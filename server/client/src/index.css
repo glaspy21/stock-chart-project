@@ -16,9 +16,12 @@ code {
   overflow-x: scroll;
 }
 
+td {
+  height: 30px;
+}
 
 th {
-  min-width: 120px;
+  min-width: 110px;
   text-align: left;
 }
 

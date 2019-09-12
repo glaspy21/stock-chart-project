@@ -1,14 +1,14 @@
 import axios from 'axios'
 import socketIOClient from 'socket.io-client';
-import { FETCH_CURRENT_STOCK_HISTORY, FETCH_CURRENT_STOCK_UPDATE, FETCH_STOCKS, SET_CURRENT_TIME, UDATE_CURRENT_TIME, CONNECT_SOCKET, ADD_STOCK, FETCH_INITIAL_DATA, REMOVE_STOCK, SET_CURRENT_CHART, SET_CURRENT_STOCK  } from './types' 
+import { FETCH_CURRENT_STOCK_HISTORY, FETCH_CURRENT_STOCK_UPDATE, FETCH_STOCKS, SET_CURRENT_TIME, UDATE_CURRENT_TIME, CONNECT_SOCKET, ADD_STOCK, FETCH_INITIAL_DATA, REMOVE_STOCK, SET_CURRENT_CHART, SET_CURRENT_STOCK, UPDATE_STOCK_LIST  } from './types' 
 
 
 export const fetchInitialData = (symbol) => async dispatch => {
     axios
         .get('http://localhost:8000/initialData')
         .then(response => {
-            console.log(`hey people what's good`)
-            console.log(response)
+           dispatch({type: FETCH_INITIAL_DATA, payload: response.data})
+           dispatch({type: SET_CURRENT_STOCK, payload: response.data.NFLX})
         })
 }
 
@@ -22,6 +22,10 @@ export const updateCurrentTime = () => {
 
 export const fetchStocks = () => {
     
+}
+
+export const updateStocks = (data) => dispatch => {
+    dispatch({type: UPDATE_STOCK_LIST, payload: data})
 }
 
 export const setCurrentStock = (stock) => dispatch => {
@@ -43,8 +47,6 @@ export const addStock =  (symbol) => async dispatch => {
             symbol
         }})
         .then(response => {
-            console.log(`hey peopel the response is`)
-            console.log(response.data)
             dispatch({type: ADD_STOCK, payload: response.data})
         })
         .catch (error => {
@@ -60,7 +62,6 @@ export const removeStock = (symbol) => dispatch => {
             symbol
         }})
         .then((response) => {
-            console.log(`ok hewre we go poEPOPL`)
             dispatch({type: REMOVE_STOCK, payload: response.data})
         })
         .catch((error) => {
@@ -75,7 +76,6 @@ export const setCurrentChart = (interval) => dispatch => {
 }
 
 export const setCurrentTime = (time) => dispatch => {
-    console.log(`current time is blah blah`)
 }
 
 //response.data["Time Series (1min)"]

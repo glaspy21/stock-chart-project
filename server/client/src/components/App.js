@@ -5,7 +5,7 @@ import NavBar from './Navbar'
 import { BrowserRouter, Switch, Route, Redirect  } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { connectSocket, addStock, removeStock, setCurrentTime, setCurrentChart, fetchInitialData } from '../actions/index'
+import { connectSocket, addStock, removeStock, setCurrentTime, setCurrentChart, fetchInitialData, updateStocks } from '../actions/index'
 import Clock from './Clock'
 import StockTable from './StockTable'
 import StockDetail from './StockDetail'
@@ -36,18 +36,13 @@ class App extends Component {
 
      this.props.fetchInitialData()
     await this.props.connectSocket()
-    this.props.socket.on("stockData", data => console.log(data))
+    this.props.socket.on("stockData", data => this.props.updateStocks(data))
     this.props.socket.on("updateCurrentTime", data => this.props.updateCurrentTime(data))
 
   }
 
   componentDidUpdate() {
-    console.log(`the current state is:`)
-    console.log(this.state.year)
-    console.log(this.state.month)
-    console.log(this.state.day)
-    console.log(this.state.hour)
-    console.log(this.state.minute)
+  
 
   }
 
@@ -73,7 +68,7 @@ class App extends Component {
             <div className="row table-container">
                 <StockTable />
             </div>
-            <div className="row">{/*chart, stocks, stockDetailrow*/}
+            <div className="row" style={{marginBottom: 100}}>{/*chart, stocks, stockDetailrow*/}
                 <StockDetail />
             <div className="col-md-8 mb-5">
               <div style={{float: 'right'}}>
@@ -105,7 +100,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({ connectSocket, addStock, removeStock, setCurrentTime, setCurrentChart, fetchInitialData }, dispatch)
+  return bindActionCreators({ connectSocket, addStock, removeStock, setCurrentTime, setCurrentChart, fetchInitialData, updateStocks }, dispatch)
 }
 
 

@@ -28,25 +28,15 @@ class StockDetail extends Component {
                         <div>EPS: {this.props.currentStock.EPS}</div>
                         <div>ROA: {this.props.currentStock.ROA}</div>
                         <div>ROE: {this.props.currentStock.ROE}</div>
-                        <div>ROI: {this.props.currentStock.ROI}/div>
+                        <div>ROI: {this.props.currentStock.ROI}</div>
                         <div>Shs Outstanding: {this.props.currentStock.shsOutstanding}</div>
                         <div>Insider Own: {this.props.currentStock.insiderOwn}</div>
                         <div>Insider Trans: {this.props.currentStock.insiderTrans}</div>
                         <div>Inst Owned: {this.props.currentStock.instOwn}</div>
-                        <div>Data Column 1</div>
-                        <div>Data Column 1</div>
-                        <div>Data Column 1</div>
-                        <div>Data Column 1</div>
-                        <div>Data Column 1</div>
-                        <div>Data Column 1</div>
-                        <div>Data Column 1</div>
-                    </div>
-                    <div className="col-md-6 mt-2">
-                        Data Column 2
                     </div>
                 </div>
             </div>
-            </div>
+           
         )
     }
 }

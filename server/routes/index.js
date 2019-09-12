@@ -3,17 +3,29 @@ const router = require('express').Router();
 const AlphaBaseUrl = 'https://www.alphavantage.co/query'
 const Alpha_API_KEY = 'XMY3YX3TU92Q9B1Z'
 const Stock = require(`../models/stocks`);
-
+const moment = require('moment')
 
 
 router.get('/initialData', async (req, res) => {
    let stocks = await Stock.find({})
-   let stocksWithLimitedObservations = stocks.map(stock=> {
-    console.log(stock)
-    stock.observations = stock.observations.slice(0,60*30);
-    return stock;
-})
-    res.status(200).send(stocksWithLimitedObservations)
+   const stockObject = stocks.reduce((sObject, currentStock) => {
+       currentStock.observations = currentStock.observations.filter(observation=> {
+           return moment(observation.date).isBetween(moment("2019-08-21T13:31:00"),moment("2019-08-21T20:00:00"))
+       }).sort(function(a,b){
+			// Turn your strings into dates, and then subtract them
+			// to get a value that is either negative, positive, or zero.
+			return new Date(a.date) - new Date(b.date);
+		  })
+        const ticker = currentStock.symbol;
+       sObject[ticker] = currentStock;
+       return sObject
+   }, {})
+//    let stocksWithLimitedObservations = stocks.map(stock=> {
+//     console.log(stock)
+//     stock.observations = stock.observations.slice(0,60*30);
+//     return stock;
+// })
+    res.status(200).send(stockObject)
 })
 
 router.get('/symbol', async (req, res, next) => {
@@ -57336,8 +57348,7 @@ router.get('/stocks', async (req, res, next) => {
     
 
     await stock.save((err) => {
-        console.log(`problem with AAPL`);
-        console.log(err)
+     
     });
 
     // stock = new Stock();
