@@ -1,29 +1,32 @@
 import { ADD_STOCK, REMOVE_STOCK, FETCH_INITIAL_DATA, UPDATE_STOCK_LIST } from '../actions/types'
 import { recalculateStock } from '../utils/utils'
 
-export default function (state = {}, action ) {
+export default function (state = {  }, action ) {
     if ( action.error ) {
         return ( action.error );
     }
     switch ( action.type ) {
         case UPDATE_STOCK_LIST:
-            console.log(`the state is `, state)
-           console.log(`action.payload is`, action.payload)
+            let newState = {}
             //loop through stocks in data
             for ( let symbol in action.payload ) {
                 if (symbol !== 'time') {
-                    console.log(`action.payload ${symbol} is:`, action.payload[symbol])
+                    if ( symbol === 'AAPL' ) {
+                        console.log(`the  AAPL observations length is `, state.AAPL.observations.length)
+                        console.log(`action.payload ${symbol} is:`, action.payload[symbol])
+                    }
                     let newObservation = action.payload[symbol]
-                    let stockToChange = state[symbol]
-                    stockToChange.observations.push(newObservation)
+                    let stockToChange = {...state[symbol]}
+                    stockToChange.observations = stockToChange.observations.concat([newObservation])  
                    stockToChange = recalculateStock(stockToChange)
-                    state[symbol] = stockToChange
+                    newState[symbol] = Object.assign(state[symbol], stockToChange)
                 }
             }
-            console.log('after recalculation',state)
-            return state
+    
+            return newState
         case FETCH_INITIAL_DATA:
             let result = {}
+            console.log(`initial symbol ACTION.PAYLOAD is:`, action.payload)
                 for ( let symbol in action.payload ) {
                     let stockToChange = action.payload[symbol]
                     recalculateStock(stockToChange)

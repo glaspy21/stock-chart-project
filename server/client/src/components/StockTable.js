@@ -8,41 +8,9 @@ import { setCurrentStock } from '../actions/index'
 class StockTable extends Component {
    constructor(props) {
       super(props) 
-      this.state = { 
-         price: 100,
-         volume: 1000000,
-         change: 5,
-         float: 10000000,
-         VWAP: 80,
-         SR: {
-            s1: 40,
-            s2: 30,
-            s3: 20,
-            r1: 50,
-            r2: 60,
-            r3: 70
-           },
-         RVol: 2,
-         RSI: 70,
-         BB: {
-            upper: 80,
-            mid: 60,
-            lower: 40
-         },
-
-
-         check: 'green',
-         /*green: #00ff55
-         red:  #ff4d4d*/
-      }
       this.renderStockRow = this.renderStockRow.bind(this);
    }
 
-   componentDidMount() {
-   //    $(document).ready(function() {
-   //       $(":checkbox").on("click", false);
-   //   });
-   }
 
    renderStockRow(stock) {
       return (
@@ -193,9 +161,6 @@ class StockTable extends Component {
                    <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>MACD</th> */}
                    {/* <th>LONG</th>
                    <th>SHORT</th> */}
-
-
-   
                 </tr>
                 {this.renderTableData()}
              </tbody>
