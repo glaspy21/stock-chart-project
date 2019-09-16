@@ -11,10 +11,6 @@ export default function (state = {  }, action ) {
             //loop through stocks in data
             for ( let symbol in action.payload ) {
                 if (symbol !== 'time') {
-                    if ( symbol === 'AAPL' ) {
-                        console.log(`the  AAPL observations length is `, state.AAPL.observations.length)
-                        console.log(`action.payload ${symbol} is:`, action.payload[symbol])
-                    }
                     let newObservation = action.payload[symbol]
                     let stockToChange = {...state[symbol]}
                     stockToChange.observations = stockToChange.observations.concat([newObservation])  
@@ -23,7 +19,7 @@ export default function (state = {  }, action ) {
                 }
             }
     
-            return newState
+            return Object.assign({}, state, newState)
         case FETCH_INITIAL_DATA:
             let result = {}
             console.log(`initial symbol ACTION.PAYLOAD is:`, action.payload)

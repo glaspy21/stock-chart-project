@@ -7,7 +7,6 @@ export default function ( state = {
     hour: '09',
     minute: '30',
     second: '00'
-
     }, action ) {
 
     if ( action.error ) {
@@ -17,7 +16,7 @@ export default function ( state = {
         case SET_CURRENT_TIME:
             return '';
         case UPDATE_CURRENT_TIME:
-            return "";
+            return Object.assign({}, action.payload);
         default:
             return state
     }

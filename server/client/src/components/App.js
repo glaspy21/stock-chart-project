@@ -5,18 +5,13 @@ import NavBar from './Navbar'
 import { BrowserRouter, Switch, Route, Redirect  } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { connectSocket, addStock, removeStock, setCurrentTime, setCurrentChart, fetchInitialData, updateStocks } from '../actions/index'
+import { connectSocket, addStock, removeStock, setCurrentTime, setCurrentChart, fetchInitialData, updateStocks, updateCurrentStock, updateCurrentTime } from '../actions/index'
 import Clock from './Clock'
 import StockTable from './StockTable'
 import StockDetail from './StockDetail'
 import '../index.css'
 import 'bootstrap/dist/css/bootstrap.css'
 
-
-
-
-// const endpoint = "http://localhost:8000"
-// const socket = socketIOClient(endpoint);
 
 class App extends Component {
   constructor() {
@@ -36,19 +31,27 @@ class App extends Component {
 
      this.props.fetchInitialData()
     await this.props.connectSocket()
-    this.props.socket.on("stockData", data => this.props.updateStocks(data))
-    this.props.socket.on("updateCurrentTime", data => this.props.updateCurrentTime(data))
-
+    this.props.socket.on("stockData", data => {
+     this.props.updateStocks(data.message);
+     this.props.updateCurrentStock(this.props.stockList, this.props.currentStock);
+     this.props.updateCurrentTime(data.time)
+    })
+    
   }
 
-  componentDidUpdate() {
-  
-
-  }
+  // componentDidUpdate(prevProps) {
+  //   console.log(`the props for now are:`, this.props, prevProps)
+  //   console.log(`Prevprops is :`, prevProps)
+  //   if ( this.props.stockList.AAPL ) {
+  //     if ( prevProps.stockList !== this.props.stockList ) {
+  //       console.log(`HEY YALL the stock in question is:`, this.props.stockList[this.props.currentStock.symbol])
+  //       this.props.updateCurrentStock(this.props.stockList[this.props.currentStock.symbol])
+  //     }
+  //   }
+  // }
 
   fetchChartData(symbol) {
     this.props.removeStock(symbol)
-    // this.props.fetchStockData(e.target.value)
 
   }
 
@@ -62,7 +65,7 @@ class App extends Component {
         <NavBar />
         <div className="container" style={{fontFamily: 'helvetica'}}>
             <div className="row">
-                    <Clock />
+                <Clock />
             </div>
             
             <div className="row table-container">
@@ -100,10 +103,9 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({ connectSocket, addStock, removeStock, setCurrentTime, setCurrentChart, fetchInitialData, updateStocks }, dispatch)
+  return bindActionCreators({ connectSocket, addStock, removeStock, setCurrentTime, setCurrentChart, fetchInitialData, updateStocks, updateCurrentStock, updateCurrentTime }, dispatch)
 }
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
 
-// onClick={e => this.fetchChartData(e.currentTarget.innerHTML)}

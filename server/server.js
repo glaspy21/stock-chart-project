@@ -54,15 +54,17 @@ const sendUpdates =  async socket => {
         // TODO: make this pull from db, not dataObj
         message[stock] = await getObservationForStockFromTime(stock, socket.currentSimulationTime)
     }
-    console.log('message sent is',message)
+    console.log('message sent is',message.time)
     // Emit stock data
-    socket.emit("stockData", message)
+    const time = socket.currentSimulationTime.format().split(/[-T:]/)
+    
+    socket.emit("stockData", {message, time})
 
     // Increment current simulation time
     socket.currentSimulationTime.add(1,'m')
 }
 
-let startSimulationTime = moment('2019-08-23 9:31')
+let startSimulationTime = moment('2019-08-22 9:31')
 
 let stocks = ['NETE', 'AAPL','NFLX', 'AMZN', 'TSLA', 'FB', 'GOOG', 'RKDA', 'BABA'];
 
