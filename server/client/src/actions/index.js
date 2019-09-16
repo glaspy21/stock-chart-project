@@ -1,6 +1,6 @@
 import axios from 'axios'
 import socketIOClient from 'socket.io-client';
-import { FETCH_CURRENT_STOCK_HISTORY, FETCH_CURRENT_STOCK_UPDATE, FETCH_STOCKS, SET_CURRENT_TIME, UDATE_CURRENT_TIME, CONNECT_SOCKET, ADD_STOCK, FETCH_INITIAL_DATA, REMOVE_STOCK, SET_CURRENT_CHART, SET_CURRENT_STOCK, UPDATE_STOCK_LIST, UPDATE_CURRENT_STOCK, UPDATE_CURRENT_TIME  } from './types' 
+import { CONNECT_SOCKET, ADD_STOCK, FETCH_INITIAL_DATA, REMOVE_STOCK, SET_CURRENT_CHART, SET_CURRENT_STOCK, UPDATE_STOCK_LIST, UPDATE_CURRENT_STOCK, UPDATE_CURRENT_TIME  } from './types' 
 
 
 export const fetchInitialData = (symbol) => async dispatch => {
@@ -39,13 +39,8 @@ export const updateCurrentTime = (time) => dispatch => {
     }) 
 }
 
-export const fetchStocks = () => {
-    
-}
-
 export const updateStocks = (data) => dispatch => {
     dispatch({type: UPDATE_STOCK_LIST, payload: data})
-
 }
 
 export const updateCurrentStock = (stockList, currentStock) => dispatch => {
@@ -103,4 +98,3 @@ export const setCurrentChart = (interval) => dispatch => {
 export const setCurrentTime = (time) => dispatch => {
 }
 
-//response.data["Time Series (1min)"]

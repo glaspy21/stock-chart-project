@@ -1,8 +1,5 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux';
-import $ from 'jquery'
-
 
 class StockDetail extends Component {
 
@@ -46,9 +43,5 @@ function mapStateToProps (state) {
         currentStock: state.currentStock
     }
 }
-
-// function mapDispatchToProps (dispatch) {
-//     return bindActionCreators({ connectSocket, addStock, removeStock, setCurrentTime }, dispatch)
-// }
 
 export default connect (mapStateToProps)(StockDetail)

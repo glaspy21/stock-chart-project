@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import Chart from './Chart'
 import NavBar from './Navbar'
-import { BrowserRouter, Switch, Route, Redirect  } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { connectSocket, addStock, removeStock, setCurrentTime, setCurrentChart, fetchInitialData, updateStocks, updateCurrentStock, updateCurrentTime } from '../actions/index'
@@ -29,30 +27,21 @@ class App extends Component {
   
   async componentDidMount() {
 
-     this.props.fetchInitialData()
-    await this.props.connectSocket()
-    this.props.socket.on("stockData", data => {
-     this.props.updateStocks(data.message);
-     this.props.updateCurrentStock(this.props.stockList, this.props.currentStock);
-     this.props.updateCurrentTime(data.time)
-    })
-    
-  }
+    this.props.fetchInitialData()
 
-  // componentDidUpdate(prevProps) {
-  //   console.log(`the props for now are:`, this.props, prevProps)
-  //   console.log(`Prevprops is :`, prevProps)
-  //   if ( this.props.stockList.AAPL ) {
-  //     if ( prevProps.stockList !== this.props.stockList ) {
-  //       console.log(`HEY YALL the stock in question is:`, this.props.stockList[this.props.currentStock.symbol])
-  //       this.props.updateCurrentStock(this.props.stockList[this.props.currentStock.symbol])
-  //     }
-  //   }
-  // }
+    await this.props.connectSocket()
+
+    this.props.socket.on("stockData", data => {
+      this.props.updateStocks(data.message);
+
+      this.props.updateCurrentStock(this.props.stockList, this.props.currentStock);
+
+      this.props.updateCurrentTime(data.time)
+    })
+  }
 
   fetchChartData(symbol) {
     this.props.removeStock(symbol)
-
   }
 
   emitCurrentTime(time) {
@@ -105,7 +94,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps (dispatch) {
   return bindActionCreators({ connectSocket, addStock, removeStock, setCurrentTime, setCurrentChart, fetchInitialData, updateStocks, updateCurrentStock, updateCurrentTime }, dispatch)
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
 

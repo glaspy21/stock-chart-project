@@ -6,27 +6,14 @@ const io = require(`socket.io`)(server);
 const moment = require(`moment`);
 const Stock = require(`./models/stocks`);
 
-
-let stockTime = {
-    year: '2019',
-    month: '08',
-    day: '16',
-    hour: '10',
-    minute: '05',
-    second: '00'
-}
 let rate = 30;
 let milliseconds = 60000/rate
-
-let stockTimeString = () => `${stockTime.year}-${stockTime.month}-${stockTime.day} ${stockTime.hour}:${stockTime.minute}:${stockTime.second}`
-
 
 const PORT = process.env.PORT || 8000;
 const index = require(`./routes/index`);
 
 const cors = require('cors')
 const bodyParser = require(`body-parser`);
-
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -43,18 +30,19 @@ const getObservationForStockFromTime = async (symbol, time) => {
     
         return moment(observation.date).isSame(time, 'minute')
     })
-    console.log(result)
+  
     return result
 }
 
 const sendUpdates =  async socket => {
     // Get stock data for current simulation Time
     let message = {time:socket.currentSimulationTime}
+
     for (const stock of stocks) {
         // TODO: make this pull from db, not dataObj
         message[stock] = await getObservationForStockFromTime(stock, socket.currentSimulationTime)
     }
-    console.log('message sent is',message.time)
+
     // Emit stock data
     const time = socket.currentSimulationTime.format().split(/[-T:]/)
     

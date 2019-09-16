@@ -19,7 +19,3 @@ class NavBar extends Component {
 }
 
 export default NavBar
-
-//border-style: dotted
-//border-color: coral
-//FB8B1E

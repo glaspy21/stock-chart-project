@@ -19,10 +19,6 @@ class Clock extends Component {
         }
     }
 
-    componentDidUpdate() {
-        console.log(this.state)
-    }
-
     renderForm () {
         $("#form1").toggle();
     }
@@ -61,8 +57,6 @@ class Clock extends Component {
                         
                     </div>
 
-                
-                {/* <div>{this.props.currentTime}</div> */}
             </Fragment>
         )
     }

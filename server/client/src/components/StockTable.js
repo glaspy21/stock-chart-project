@@ -8,6 +8,7 @@ import { setCurrentStock } from '../actions/index'
 class StockTable extends Component {
    constructor(props) {
       super(props) 
+
       this.renderStockRow = this.renderStockRow.bind(this);
    }
 
@@ -24,16 +25,8 @@ class StockTable extends Component {
            <td>{stock.change}</td>  
            <td>{stock.shsFloat}</td>
            <td>{stock.vwap}</td>
-           {/* <td>{stock.price}</td> */}
-           {/* <td>{stock.price}</td> */}
            <td>{stock.rvol}</td>
            <td>{stock.rsi}</td>
-           {/* <td>{stock.BB}</td> */}
-           {/* <td>{stock.sma}</td>
-           <td>{stock.price}</td> */}
-           {/* <td>{stock.price}</td> */}
-           {/* <td rowSpan="3">60%</td>
-           <td rowSpan="3">0%</td> */}
          </tr>
          <tr>
             <span className={stock.price > 60 ? 'green':'red'}>
@@ -70,106 +63,60 @@ class StockTable extends Component {
                 <span title="red box" />
               </span>
            </td>
-           {/* <td>
-              <span className={stock.rvol > 2 ? 'green':'red'}>
-                <span title="green box" />
-                <span title="red box" />
-              </span>
-           </td>
-           <td>
-              <span className={stock.bb > 60 ? 'green':'red'}>
-                <span title="green box" />
-                <span title="red box" />
-              </span>
-           </td> */}
-           {/* <td>
-              <span className={(stock.price - 40)/40 > .20 ? 'green':'red'}>
-                <span title="green box" />
-                <span title="red box" />
-              </span>
-           </td>
-           <td>
-              <span className={(stock.price - 50)/40 > 40 ? 'green':'red'}>
-                <span title="green box" />
-                <span title="red box" />
-              </span>
-           </td>
-           <td>
-              <span className={this.state.che}>
-                <span title="green box" />
-                <span title="red box" />
-              </span>
-           </td>
-           <td>
-              <span className={stock}>
-                <span title="green box" />
-                <span title="red box" />
-              </span>
-           </td> */}
            <td>
               <span className={stock.macd > 0 ? 'green':'red'}>
                 <span title="green box" />
                 <span title="red box" />
               </span>
            </td>
-           
          </tr>
-         
          </Fragment>
       )
    }
 
    renderTableData() {
       let stockRows = [];
+
       for ( let stockSymbol in this.props.stockList ) {
-         let stock = this.props.stockList[stockSymbol]
-        stockRows.push( this.renderStockRow(stock))
+         let stock = this.props.stockList[stockSymbol];
+         stockRows.push( this.renderStockRow(stock));
       }
+
       return stockRows
-         
-      
-   } 
-      
+   }
 
- renderTableHeader() {
-   
- }
-
- render() {
-    return (
-       
-          
-       <div id="stockTable" className="col-md-12 mb-5">
-          <div className="text-center">
-          <h4 id='title'className="font-weight-bold" style={{fontFamily: 'helvetica'}}>US STOCKS</h4>
-          <table className="stockTable" style={{fontFamily: 'helvetica', width:"100%"}} id='students'>
-             <tbody>
-                <tr>
-                   <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>Symbol</th>
-                   <th  className="pr-4"><button style={{float: 'left', width: 25}}>+</button>Price</th>
-                   <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>Volume</th>
-                   <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>Change</th>
-                   <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>Float</th>
-                   <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>VWAP</th>
-                   {/* <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>S/R</th> */}
-                   <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>RVol</th>
-                   <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>RSI</th>
-                   {/* <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>BB</th> */}
-                   {/* <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>SMA</th>
-                   <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>EMA</th>
-                   <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>ADX</th>
-                   <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>MACD</th> */}
-                   {/* <th>LONG</th>
-                   <th>SHORT</th> */}
-                </tr>
-                {this.renderTableData()}
-             </tbody>
-          </table>
-          </div>
-       </div>
-       
-    )
- }
+   render() {
+      return (
+         <div id="stockTable" className="col-md-12 mb-5">
+            <div className="text-center">
+            <h4 id='title'className="font-weight-bold" style={{fontFamily: 'helvetica'}}>US STOCKS</h4>
+            <table className="stockTable" style={{fontFamily: 'helvetica', width:"100%"}} id='students'>
+               <tbody>
+                  <tr>
+                     <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>Symbol</th>
+                     <th  className="pr-4"><button style={{float: 'left', width: 25}}>+</button>Price</th>
+                     <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>Volume</th>
+                     <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>Change</th>
+                     <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>Float</th>
+                     <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>VWAP</th>
+                     {/* <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>S/R</th> */}
+                     <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>RVol</th>
+                     <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>RSI</th>
+                     {/* <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>BB</th> */}
+                     {/* <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>SMA</th>
+                     <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>EMA</th>
+                     <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>ADX</th>
+                     <th className="pr-4"><button style={{float: 'left', width: 25}}>+</button>MACD</th> */}
+                     {/* <th>LONG</th>
+                     <th>SHORT</th> */}
+                  </tr>
+                  {this.renderTableData()}
+               </tbody>
+            </table>
+            </div>
+         </div>
+      )
+   }
 }
 
 function mapStateToProps (state) {

@@ -13,8 +13,6 @@ export default function ( state = {
         return ( action.error );
     }
     switch (action.type) {
-        case SET_CURRENT_TIME:
-            return '';
         case UPDATE_CURRENT_TIME:
             return Object.assign({}, action.payload);
         default:

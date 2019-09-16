@@ -34,17 +34,6 @@ table, td, th, tr {
   border-collapse: collapse;
 }
 
-
-
-#Aro {
-    
-}
-
-.doc {
-  
-  
-}
-
 #stockTable {
   position: relative;
   border-top: 2px dotted #FB8B1E;
@@ -120,10 +109,6 @@ input {
   left: 0
 }
 
-
-
-
-
 .none span{
   content: "";
   display: inline-block;
@@ -137,9 +122,6 @@ input {
   margin-right: 0.5em;
 }
 
-
-
-
 .green span:first-child:before {
   content: "";
   display: inline-block;
@@ -152,6 +134,7 @@ input {
   box-shadow: inset 0 2px 5px rgba(0,0,0,0.25);
   margin-right: 0.5em;
 }
+
 .green span:nth-child(2):before {
   content: "";
   display: inline-block;
@@ -219,6 +202,7 @@ input {
   /* animate the transition */
   transition: all 0.5s ease-in-out;
 }
+
 /* display .overlay when it has the .active class */
 .overlay.active {
   display: block;
